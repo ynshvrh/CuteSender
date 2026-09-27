@@ -1,0 +1,18 @@
+services:
+  backend:
+      build: ./cutesender-rust
+      environment:
+        - SMTP_USER=${SMTP_USER}
+        - SMTP_PASS=${SMTP_PASS}
+        - PORT=3000
+      restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./cutesender-web
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
